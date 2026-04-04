@@ -22,6 +22,10 @@ def _sucessive_divisions(base : int, value : int):
 
     return rests
 
+def _xor(x : int, y : int):
+    if x == y:
+        return 0
+    return 1
 
 @api_view(['GET'])
 def decimal_to_binary(request):
@@ -127,4 +131,26 @@ def decimal_to_hex(request):
 
     return Response(
         data={'hex': hex}, status=status.HTTP_200_OK
+    )
+
+@api_view(['GET'])
+def binary_to_gray(request):
+    if not 'value' in request.query_params:
+        return Response(
+            data={'error': 'The value must exists'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    
+    value = str(request.query_params.get('value'))
+    digits = [int(digit) for digit in value]
+
+    gray_digits = [digits[0]]
+    for i in range(len(digits) - 1):
+        gray_digits.append(_xor(digits[i], digits[i+1]))
+    
+    gray = ''.join(str(gray_digit) for gray_digit in gray_digits)
+
+    return Response(
+        data={'gray': gray},
+        status=status.HTTP_200_OK,
     )
