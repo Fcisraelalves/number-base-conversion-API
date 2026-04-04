@@ -94,3 +94,37 @@ def decimal_to_octal(request):
         data={'octal': octal}, status=status.HTTP_200_OK
     )
 
+@api_view(['GET'])
+def decimal_to_hex(request):
+
+    hex_simbols = {10 : 'A', 
+                   11 : 'B',
+                   12 : 'C',
+                   13 : 'D',
+                   14 : 'E',
+                   15 : 'F'}
+
+    if not 'value' in request.query_params:
+        return Response(
+            data={'error': 'The value must exists'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    value = request.query_params.get('value')
+
+    try:
+        value = int(value)
+    except (TypeError, ValueError):
+        return Response(data={'error' : 'The value must be a number'},
+                        status=status.HTTP_400_BAD_REQUEST)
+    
+    rests = _sucessive_divisions(16, value)
+
+    for i, rest in enumerate(rests):
+        if rest in hex_simbols:
+            rests[i] = hex_simbols[rest]
+
+    hex = ''.join([str(digit) for digit in rests[::-1]])
+
+    return Response(
+        data={'hex': hex}, status=status.HTTP_200_OK
+    )
