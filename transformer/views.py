@@ -59,5 +59,5 @@ def binary_to_decimal(request):
 
     return Response(
         data={'decimal': decimal_value},
-        status=status.HTTP_400_BAD_REQUEST,
+        status=status.HTTP_200_OK,
     )
