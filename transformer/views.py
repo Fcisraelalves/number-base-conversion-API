@@ -173,3 +173,30 @@ def gray_to_binary(request):
         data={'binary': binary},
         status=status.HTTP_200_OK,
     )
+
+
+@api_view(['GET'])
+def decimal_to_bcd(request):
+    value = request.query_params.get('value', None)
+    if not value:
+        return Response(
+            data={'error': 'The value must exists'},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+    try:
+        value = int(value)
+    except (TypeError, ValueError):
+        return Response(data={'error' : 'The value must be a number'},
+                        status=status.HTTP_400_BAD_REQUEST)
+    bcd = ''
+    decimal_digits = [int(digit) for digit in str(value)]
+    for decimal_digit in decimal_digits:
+        rests = _sucessive_divisions(2, decimal_digit)
+        while len(rests) < 4:
+            rests.append(0)
+        bcd += _concatenate_digits(rests)[::-1]
+
+    return Response(
+        data={'bcd': bcd},
+        status=status.HTTP_200_OK,
+    )
