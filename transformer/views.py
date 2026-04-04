@@ -22,6 +22,9 @@ def _sucessive_divisions(base : int, value : int):
 
     return rests
 
+def _concatenate_digits(digits : list):
+    return ''.join([str(digit) for digit in digits])
+
 def _xor(x : int, y : int):
     if x == y:
         return 0
@@ -44,8 +47,7 @@ def decimal_to_binary(request):
                         status=status.HTTP_400_BAD_REQUEST)
     
     rests = _sucessive_divisions(2, value)
-
-    binary = ''.join([str(digit) for digit in rests[::-1]])
+    binary = _concatenate_digits(rests[::-1])
 
     return Response(
         data={'binary': binary}, status=status.HTTP_200_OK
@@ -91,8 +93,7 @@ def decimal_to_octal(request):
                         status=status.HTTP_400_BAD_REQUEST)
     
     rests = _sucessive_divisions(8, value)
-
-    octal = ''.join([str(digit) for digit in rests[::-1]])
+    octal = _concatenate_digits(rests[::-1])
 
     return Response(
         data={'octal': octal}, status=status.HTTP_200_OK
@@ -127,7 +128,7 @@ def decimal_to_hex(request):
         if rest in hex_simbols:
             rests[i] = hex_simbols[rest]
 
-    hex = ''.join([str(digit) for digit in rests[::-1]])
+    hex = _concatenate_digits(rests[::-1])
 
     return Response(
         data={'hex': hex}, status=status.HTTP_200_OK
@@ -148,7 +149,7 @@ def binary_to_gray(request):
     for i in range(len(digits) - 1):
         gray_digits.append(_xor(digits[i], digits[i+1]))
     
-    gray = ''.join(str(gray_digit) for gray_digit in gray_digits)
+    gray = _concatenate_digits(gray_digits)
 
     return Response(
         data={'gray': gray},
@@ -170,7 +171,7 @@ def gray_to_binary(request):
     for i in range(len(gray_digits) - 1):
         binary_digits.append(_xor(binary_digits[i], gray_digits[i+1]))
 
-    binary = ''.join([str(binary_digit) for binary_digit in binary_digits])
+    binary = _concatenate_digits(binary_digits)
 
     return Response(
         data={'binary': binary},
