@@ -154,3 +154,25 @@ def binary_to_gray(request):
         data={'gray': gray},
         status=status.HTTP_200_OK,
     )
+
+@api_view(['GET'])
+def gray_to_binary(request):
+    if not 'value' in request.query_params:
+        return Response(
+            data={'error': 'The value must exists'},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    value = str(request.query_params.get('value'))
+    gray_digits = [int(digit) for digit in value]
+
+    binary_digits = [gray_digits[0]]
+    for i in range(len(gray_digits) - 1):
+        binary_digits.append(_xor(binary_digits[i], gray_digits[i+1]))
+
+    binary = ''.join([str(binary_digit) for binary_digit in binary_digits])
+
+    return Response(
+        data={'binary': binary},
+        status=status.HTTP_200_OK,
+    )
