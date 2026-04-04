@@ -7,6 +7,11 @@ from rest_framework import status
 @api_view(['GET'])
 def decimal_to_binary(request):
     
+    if not 'value' in request.query_params:
+        return Response(
+            data={'error': 'The value must exists'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
     value = request.query_params.get('value')
 
     try:
@@ -33,6 +38,5 @@ def decimal_to_binary(request):
     return Response(
         data={'binary': binary}, status=status.HTTP_200_OK
     )
-
 
    
