@@ -69,3 +69,28 @@ def binary_to_decimal(request):
         data={'decimal': decimal_value},
         status=status.HTTP_200_OK,
     )
+
+@api_view(['GET'])
+def decimal_to_octal(request):
+
+    if not 'value' in request.query_params:
+        return Response(
+            data={'error': 'The value must exists'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    value = request.query_params.get('value')
+
+    try:
+        value = int(value)
+    except (TypeError, ValueError):
+        return Response(data={'error' : 'The value must be a number'},
+                        status=status.HTTP_400_BAD_REQUEST)
+    
+    rests = _sucessive_divisions(8, value)
+
+    octal = ''.join([str(digit) for digit in rests[::-1]])
+
+    return Response(
+        data={'octal': octal}, status=status.HTTP_200_OK
+    )
+
