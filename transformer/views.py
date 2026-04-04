@@ -39,4 +39,25 @@ def decimal_to_binary(request):
         data={'binary': binary}, status=status.HTTP_200_OK
     )
 
-   
+
+@api_view(['GET'])
+def binary_to_decimal(request):
+
+    if not 'value' in request.query_params:
+        return Response(
+            data={'error': 'The value must exists'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    
+    value = str(request.query_params.get('value'))
+
+    digits = [int(digit) for digit in value]
+
+    digits_weights = zip(digits[::-1], range(len(digits)))
+
+    decimal_value = int(sum([digit[0]*2**digit[1] for digit in digits_weights]))
+
+    return Response(
+        data={'decimal': decimal_value},
+        status=status.HTTP_400_BAD_REQUEST,
+    )
