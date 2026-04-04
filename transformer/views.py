@@ -32,13 +32,12 @@ def _xor(x : int, y : int):
 
 @api_view(['GET'])
 def decimal_to_binary(request):
-    
-    if not 'value' in request.query_params:
+    value = request.query_params.get('value', None)
+    if not value:
         return Response(
             data={'error': 'The value must exists'},
             status=status.HTTP_400_BAD_REQUEST
         )
-    value = request.query_params.get('value')
 
     try:
         value = int(value)
@@ -56,14 +55,12 @@ def decimal_to_binary(request):
 
 @api_view(['GET'])
 def binary_to_decimal(request):
-
-    if not 'value' in request.query_params:
+    value = request.query_params.get('value', None)
+    if not value:
         return Response(
             data={'error': 'The value must exists'},
             status=status.HTTP_400_BAD_REQUEST
         )
-    
-    value = str(request.query_params.get('value'))
 
     digits = [int(digit) for digit in value]
 
@@ -78,13 +75,12 @@ def binary_to_decimal(request):
 
 @api_view(['GET'])
 def decimal_to_octal(request):
-
-    if not 'value' in request.query_params:
+    value = request.query_params.get('value', None)
+    if not value:
         return Response(
             data={'error': 'The value must exists'},
             status=status.HTTP_400_BAD_REQUEST
-        )
-    value = request.query_params.get('value')
+    )
 
     try:
         value = int(value)
@@ -109,12 +105,12 @@ def decimal_to_hex(request):
                    14 : 'E',
                    15 : 'F'}
 
-    if not 'value' in request.query_params:
+    value = request.query_params.get('value', None)
+    if not value:
         return Response(
             data={'error': 'The value must exists'},
             status=status.HTTP_400_BAD_REQUEST
         )
-    value = request.query_params.get('value')
 
     try:
         value = int(value)
@@ -136,13 +132,13 @@ def decimal_to_hex(request):
 
 @api_view(['GET'])
 def binary_to_gray(request):
-    if not 'value' in request.query_params:
+    value = request.query_params.get('value', None)
+    if not value:
         return Response(
             data={'error': 'The value must exists'},
             status=status.HTTP_400_BAD_REQUEST
         )
     
-    value = str(request.query_params.get('value'))
     digits = [int(digit) for digit in value]
 
     gray_digits = [digits[0]]
@@ -158,13 +154,13 @@ def binary_to_gray(request):
 
 @api_view(['GET'])
 def gray_to_binary(request):
-    if not 'value' in request.query_params:
+    value = request.query_params.get('value', None)
+    if not value:
         return Response(
             data={'error': 'The value must exists'},
-            status=status.HTTP_400_BAD_REQUEST,
+            status=status.HTTP_400_BAD_REQUEST
         )
-
-    value = str(request.query_params.get('value'))
+    
     gray_digits = [int(digit) for digit in value]
 
     binary_digits = [gray_digits[0]]
