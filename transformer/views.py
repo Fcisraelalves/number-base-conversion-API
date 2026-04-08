@@ -32,7 +32,7 @@ def _xor(x : int, y : int):
 
 def _weights_sum(digits : list, base : int):    
     weights_sum = 0
-    for digit, weight in digits:
+    for weight,digit in enumerate(digits):
         weights_sum += (digit * (base ** weight))
     
     return weights_sum
