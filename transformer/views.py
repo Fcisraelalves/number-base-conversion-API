@@ -30,6 +30,13 @@ def _xor(x : int, y : int):
         return 0
     return 1
 
+def _weights_sum(digits : list, base : int):    
+    weights_sum = 0
+    for digit, weight in digits:
+        weights_sum += (digit * (base ** weight))
+    
+    return weights_sum
+
 @api_view(['GET'])
 def decimal_to_binary(request):
     value = request.query_params.get('value', None)
