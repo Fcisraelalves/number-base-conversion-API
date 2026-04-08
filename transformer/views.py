@@ -207,3 +207,21 @@ def decimal_to_bcd(request):
         data={'bcd': bcd},
         status=status.HTTP_200_OK,
     )
+
+@api_view(['GET'])
+def octal_to_decimal(request):
+
+    value = request.query_params.get('value')
+
+    if not value:
+        return Response(
+            data={'error': 'The value must exists'}
+        )
+
+    digits = [int(digit) for digit in str(value)]
+    decimal = _weights_sum(digits[::-1], 8)
+
+    return Response(
+        data={'decimal': decimal},
+        status=status.HTTP_200_OK,
+    )
