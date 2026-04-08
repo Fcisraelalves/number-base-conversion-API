@@ -4,6 +4,15 @@ from rest_framework.response import Response
 from rest_framework import status
 # Create your views here.
 
+
+class HexaDigits:
+    DIGITS = {10 : 'A', 
+                   11 : 'B',
+                   12 : 'C',
+                   13 : 'D',
+                   14 : 'E',
+                   15 : 'F'}
+
 def _sucessive_divisions(base : int, value : int):
     rests = []
 
@@ -105,12 +114,7 @@ def decimal_to_octal(request):
 @api_view(['GET'])
 def decimal_to_hex(request):
 
-    hex_simbols = {10 : 'A', 
-                   11 : 'B',
-                   12 : 'C',
-                   13 : 'D',
-                   14 : 'E',
-                   15 : 'F'}
+    hex_simbols = HexaDigits.DIGITS
 
     value = request.query_params.get('value', None)
     if not value:
