@@ -80,9 +80,7 @@ def binary_to_decimal(request):
 
     digits = [int(digit) for digit in value]
 
-    digits_weights = zip(digits[::-1], range(len(digits)))
-
-    decimal_value = int(sum([digit[0]*2**digit[1] for digit in digits_weights]))
+    decimal_value = _weights_sum(digits[::-1], 2)
 
     return Response(
         data={'decimal': decimal_value},
