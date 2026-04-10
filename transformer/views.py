@@ -266,9 +266,9 @@ def bcd_to_decimal(request):
             nibble.append(digit)
             digits.append(nibble[:])
             nibble = []
-
         else:
             nibble.append(digit)
+
     digits = [list(map(int, nibble)) for nibble in digits]
     decimal_digits = []
     for nibble in digits:
