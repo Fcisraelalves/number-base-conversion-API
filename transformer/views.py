@@ -227,3 +227,23 @@ def octal_to_decimal(request):
         data={'decimal': decimal},
         status=status.HTTP_200_OK,
     )
+
+@api_view(['GET'])
+def hex_to_decimal(request):
+    value = request.query_params.get('value')
+
+    if not value:
+        return Response(
+            data={'error': 'The value must exists'}
+        )
+    
+    hex_digits = {char: value for value, char in HexaDigits.DIGITS.items()}
+    digits = [int(char) if char.isdigit() else hex_digits[char] for char in str(value)]
+    decimal_value = _weights_sum(digits[::-1], 16)
+
+    return Response(
+        data={'decimal': decimal_value},
+        status=status.HTTP_200_OK,
+    )
+
+
