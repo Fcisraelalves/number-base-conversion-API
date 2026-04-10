@@ -7,11 +7,12 @@ urlpatterns = [
     path('dec-to-hex/', decimal_to_hex),
     path('dec-to-bcd/', decimal_to_bcd),
 
-    path('bin-to-dec/', binary_to_decimal),
     path('bin-to-gray/', binary_to_gray),
     path('gray-to-bin/', gray_to_binary),
 
+    path('bin-to-dec/', binary_to_decimal),
     path('oct-to-dec/', octal_to_decimal),
     path('hex-to-dec/', hex_to_decimal),
+    path('bcd-to-dec/', bcd_to_decimal),
 ]
 

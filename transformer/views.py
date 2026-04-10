@@ -246,4 +246,35 @@ def hex_to_decimal(request):
         status=status.HTTP_200_OK,
     )
 
+@api_view(['GET'])
+def bcd_to_decimal(request):
+    value = request.query_params.get('value')
 
+    if not value:
+        return Response(
+            data={'error': 'The value must exists'},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    digits = []
+    for i, digit in enumerate(str(value)):
+        if i == 0:
+            nibble = [digit]
+        elif (i + 1) % 4 == 0:
+            nibble.append(digit)
+            digits.append(nibble[:])
+            nibble = []
+
+        else:
+            nibble.append(digit)
+    digits = [list(map(int, nibble)) for nibble in digits]
+    decimal_digits = []
+    for nibble in digits:
+        decimal_digits.append(_weights_sum(nibble[::-1], 2))
+    decimal_value = int(_concatenate_digits(decimal_digits))
+
+    return Response(
+        data={'decimal': decimal_value},
+        status=status.HTTP_200_OK,
+    )
+        
