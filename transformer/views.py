@@ -217,7 +217,8 @@ def octal_to_decimal(request):
 
     if not value:
         return Response(
-            data={'error': 'The value must exists'}
+            data={'error': 'The value must exists'},
+            status=status.HTTP_400_BAD_REQUEST,
         )
 
     digits = [int(digit) for digit in str(value)]
@@ -234,7 +235,8 @@ def hex_to_decimal(request):
 
     if not value:
         return Response(
-            data={'error': 'The value must exists'}
+            data={'error': 'The value must exists'},
+            status=status.HTTP_400_BAD_REQUEST,
         )
     
     hex_digits = {char: value for value, char in HexaDigits.DIGITS.items()}
